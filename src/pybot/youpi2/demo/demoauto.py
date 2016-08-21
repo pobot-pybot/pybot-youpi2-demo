@@ -14,7 +14,7 @@ class DemoAuto(object):
     @staticmethod
     def main():
         parser = argparse.ArgumentParser()
-        parser.add_argument('--pnldev')
+        parser.add_argument('--pnldev', default="/mnt/lcdfs")
 
         args = parser.parse_args()
 
