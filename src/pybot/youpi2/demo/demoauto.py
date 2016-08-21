@@ -25,7 +25,7 @@ class DemoAuto(object):
         self.pnl = ControlPanel(FileSystemDevice(pnldev))
         self.terminated = False
 
-    def terminate(self):
+    def terminate(self, *args):
         self.terminated = True
 
     def run(self):
