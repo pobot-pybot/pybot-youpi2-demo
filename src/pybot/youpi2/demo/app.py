@@ -4,6 +4,7 @@ import pkgutil
 import json
 
 from pybot.youpi2.app import YoupiApplication
+from pybot.youpi2.model import YoupiArm
 
 __author__ = 'Eric Pascual'
 
@@ -27,8 +28,8 @@ class AutomaticDemoApp(YoupiApplication):
         # looping when reaching its end
         if not self.arm.is_moving():
             self.pnl.center_text_at('current step: %d' % self.step_num, 3)
-            pose = self.sequence[self.step_num]
-            self.arm.goto(pose, wait=False)
+            pose = {YoupiArm.MOTOR_NAMES.index(j): a for j, a in self.sequence[self.step_num].iteritems()}
+            self.arm.goto(pose, False)
 
             self.step_num = (self.step_num + 1) % len(self.sequence)
 
