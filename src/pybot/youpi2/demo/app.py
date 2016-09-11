@@ -52,12 +52,12 @@ class AutomaticDemoApp(YoupiApplication):
                 3
             )
             self.pnl.write_at(
-                self.current_step.args_repr.ljust(self.pnl.width)[:self.pnl.width - 1],
+                self.current_step.args_repr.replace(' ', '').ljust(self.pnl.width)[:self.pnl.width],
                 4
             )
             self.logger.info(
                 'executing step #%d : %s(%s)',
-                self.step_num, self.current_step.KEYWORD, self.current_step.args_repr.replace(' ', '')
+                self.step_num, self.current_step.KEYWORD, self.current_step.args_repr
             )
             self.current_step.execute()
             self.state = self.STATE_EXECUTING
