@@ -47,7 +47,11 @@ class AutomaticDemoApp(YoupiApplication):
             self.state = self.STATE_LOADED
 
         elif self.state == self.STATE_LOADED:
-            self.pnl.center_text_at('step #%d > %s' % (self.step_num, self.current_step.KEYWORD), 3)
+            self.pnl.write_at(
+                ('step #%d > %s' % (self.step_num, self.current_step.KEYWORD)).ljust(self.pnl.width),
+                1, 3
+            )
+            self.pnl.write_at(self.current_step.args_repr[:self.pnl.width].ljust(self.pnl.width))
             self.logger.info(
                 'executing step #%d : %s(%s)',
                 self.step_num, self.current_step.KEYWORD, self.current_step.args_repr
