@@ -52,7 +52,7 @@ class AutomaticDemoApp(YoupiApplication):
                 1, 3
             )
             self.pnl.write_at(
-                self.current_step.args_repr[:self.pnl.width].ljust(self.pnl.width),
+                self.current_step.args_repr.ljust(self.pnl.width)[:self.pnl.width - 1],
                 1, 4
             )
             self.logger.info(
