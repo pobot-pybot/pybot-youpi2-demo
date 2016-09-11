@@ -6,12 +6,15 @@ import json
 from pybot.youpi2.app import YoupiApplication
 from pybot.youpi2.model import YoupiArm
 
+from .__version__ import version
+
 __author__ = 'Eric Pascual'
 
 
 class AutomaticDemoApp(YoupiApplication):
     NAME = 'demo-auto'
     TITLE = "Standalone demo"
+    VERSION = version
 
     sequence = None
     step_num = 0
