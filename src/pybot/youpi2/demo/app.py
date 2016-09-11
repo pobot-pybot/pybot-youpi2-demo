@@ -17,23 +17,29 @@ class AutomaticDemoApp(YoupiApplication):
     VERSION = version
 
     sequence = None
+    steps_count = 0
     step_num = 0
+    steps_done = -1
 
     def add_custom_arguments(self, parser):
         parser.add_argument('--sequence-name', default="test")
 
     def setup(self, sequence_name="test", **kwargs):
         self.sequence = json.loads(pkgutil.get_data('pybot.youpi2.demo', 'data/%s.json' % sequence_name))
+        self.steps_count = len(self.sequence)
         self.logger.info("sequence: %s", self.sequence)
 
     def loop(self):
         # if the arm is not moving, advance to the next sequence step,
-        # looping when reaching its end
+        # looping when reaching its end (apart if single step sequence)
         if not self.arm.is_moving():
+            self.steps_done += 1
             self.pnl.center_text_at('current step: %d' % self.step_num, 3)
             pose = {YoupiArm.MOTOR_NAMES.index(j): a for j, a in self.sequence[self.step_num].iteritems()}
             self.arm.goto(pose, False)
 
+            if self.steps_count == self.steps_done == 1:
+                return True
             self.step_num = (self.step_num + 1) % len(self.sequence)
 
     def teardown(self, exit_code):
