@@ -49,11 +49,11 @@ class AutomaticDemoApp(YoupiApplication):
         elif self.state == self.STATE_LOADED:
             self.pnl.write_at(
                 ('step #%d > %s' % (self.step_num, self.current_step.KEYWORD)).ljust(self.pnl.width),
-                1, 3
+                3
             )
             self.pnl.write_at(
                 self.current_step.args_repr.ljust(self.pnl.width)[:self.pnl.width - 1],
-                1, 4
+                4
             )
             self.logger.info(
                 'executing step #%d : %s(%s)',
