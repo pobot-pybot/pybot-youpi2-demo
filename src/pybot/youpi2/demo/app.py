@@ -38,8 +38,8 @@ class AutomaticDemoApp(YoupiApplication):
 
     def teardown(self, exit_code):
         self.pnl.center_text_at('terminating', 3)
-        if self.arm.moving:
-            self.arm.stop()
+        self.arm.soft_hi_Z()
+        self.logger.info('arm set in Hi-Z')
 
 
 def main():
