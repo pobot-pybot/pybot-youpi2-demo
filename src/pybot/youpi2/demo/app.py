@@ -25,7 +25,7 @@ class AutomaticDemoApp(YoupiApplication):
     def loop(self):
         # if the arm is not moving, advance to the next sequence step,
         # looping when reaching its end
-        if not self.arm.moving:
+        if not self.arm.is_moving():
             self.pnl.center_text_at('current step: %d' % self.step_num, 3)
             pose = self.sequence[self.step_num]
             self.arm.goto(pose, wait=False)
