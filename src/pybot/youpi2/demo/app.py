@@ -2,12 +2,11 @@
 
 import pkgutil
 import json
-import time
 
 from pybot.youpi2.app import YoupiApplication
-from pybot.youpi2.model import YoupiArm
 
-from .__version__ import version
+from pybot.youpi2.demo.stmts import STATEMENTS
+from pybot.youpi2.demo.__version__ import version
 
 __author__ = 'Eric Pascual'
 
@@ -32,7 +31,7 @@ class AutomaticDemoApp(YoupiApplication):
         src = json.loads(pkgutil.get_data('pybot.youpi2.demo', 'data/%s.json' % sequence_name))
         for keyw, args in src:
             try:
-                step_class = _STATEMENTS[keyw]
+                step_class = STATEMENTS[keyw]
             except KeyError:
                 raise ValueError('invalid keyword: %s' % keyw)
             else:
@@ -77,70 +76,6 @@ class AutomaticDemoApp(YoupiApplication):
         self.pnl.center_text_at('terminating', 3)
         self.arm.soft_hi_Z()
         self.logger.info('arm set in Hi-Z')
-
-
-class SequenceStep(object):
-    args_repr = ''
-
-    def __init__(self, arm, logger, **kwargs):
-        self.arm = arm
-        self.logger = logger
-
-    def execute(self):
-        raise NotImplementedError()
-
-    def is_done(self):
-        raise NotImplementedError()
-
-
-_STATEMENTS = {}
-
-
-def register(cls):
-    try:
-        _STATEMENTS[cls.KEYWORD] = cls
-    except AttributeError:
-        pass
-    return cls
-
-
-@register
-class MoveStep(SequenceStep):
-    KEYWORD = 'MOVE'
-
-    def __init__(self, arm, logger, pose=None):
-        super(MoveStep, self).__init__(arm, logger)
-        self.pose = {YoupiArm.MOTOR_NAMES.index(j): a for j, a in pose.iteritems()}
-        self.args_repr = 'pose=%s' % self.pose
-
-    def execute(self):
-        self.arm.goto(self.pose, False)
-
-    def is_done(self):
-        return not self.arm.is_moving()
-
-
-@register
-class PauseStep(SequenceStep):
-    KEYWORD = 'PAUSE'
-
-    def __init__(self, arm, logger, delay=1):
-        super(PauseStep, self).__init__(arm, logger)
-
-        try:
-            self.delay = int(delay)
-        except ValueError:
-            self.logger.error('invalid delay value (%s) for PAUSE', delay)
-            raise
-
-        self.limit = None
-        self.args_repr = 'delay=%d' % self.delay
-
-    def execute(self):
-        self.limit = time.time() + self.delay
-
-    def is_done(self):
-        return time.time() >= self.limit
 
 
 def main():

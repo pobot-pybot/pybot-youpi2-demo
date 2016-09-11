@@ -1,6 +1,6 @@
 [
     [
-        "MOVE",
+        "GOTO",
         {
             "pose": {
                 "base": -45
@@ -8,7 +8,7 @@
         }
     ],
     [
-        "MOVE",
+        "GOTO",
         {
             "pose": {
                 "elbow": 45
@@ -16,7 +16,7 @@
         }
     ],
     [
-        "MOVE",
+        "GOTO",
         {
             "pose": {
                 "base": 45
@@ -24,7 +24,7 @@
         }
     ],
     [
-        "MOVE",
+        "GOTO",
         {
             "pose": {
                 "base": 0,
