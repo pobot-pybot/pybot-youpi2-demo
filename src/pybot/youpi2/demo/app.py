@@ -57,7 +57,7 @@ class AutomaticDemoApp(YoupiApplication):
             )
             self.logger.info(
                 'executing step #%d : %s(%s)',
-                self.step_num, self.current_step.KEYWORD, self.current_step.args_repr
+                self.step_num, self.current_step.KEYWORD, self.current_step.args_repr.replace(' ', '')
             )
             self.current_step.execute()
             self.state = self.STATE_EXECUTING
