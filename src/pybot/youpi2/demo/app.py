@@ -50,7 +50,7 @@ class AutomaticDemoApp(YoupiApplication):
             self.pnl.center_text_at('current step: %d' % self.step_num, 3)
             self.logger.info(
                 'executing step #%d : %s(%s)',
-                self.step_num, self.current_step.KEYWORD, self.current_step.args_repr()
+                self.step_num, self.current_step.KEYWORD, self.current_step.args_repr
             )
             self.current_step.execute()
             self.state = self.STATE_EXECUTING
