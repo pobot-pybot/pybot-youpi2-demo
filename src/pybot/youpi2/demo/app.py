@@ -36,7 +36,7 @@ class AutomaticDemoApp(YoupiApplication):
             except KeyError:
                 raise ValueError('invalid keyword: %s' % keyw)
             else:
-                self.sequence.append(step_class(**args))
+                self.sequence.append(step_class(self.arm, self.logger, **args))
 
         self.steps_count = len(self.sequence)
         self.logger.info("sequence: %s", self.sequence)
@@ -48,7 +48,10 @@ class AutomaticDemoApp(YoupiApplication):
 
         elif self.state == self.STATE_LOADED:
             self.pnl.center_text_at('current step: %d' % self.step_num, 3)
-            self.logger.info('executing step #%d (%s)', self.step_num, self.current_step.KEYWORD)
+            self.logger.info(
+                'executing step #%d : %s(%s)',
+                self.step_num, self.current_step.KEYWORD, self.current_step.args_repr()
+            )
             self.current_step.execute()
             self.state = self.STATE_EXECUTING
 
@@ -70,6 +73,8 @@ class AutomaticDemoApp(YoupiApplication):
 
 
 class SequenceStep(object):
+    args_repr = ''
+
     def __init__(self, arm, logger, **kwargs):
         self.arm = arm
         self.logger = logger
@@ -99,6 +104,7 @@ class MoveStep(SequenceStep):
     def __init__(self, arm, logger, pose=None):
         super(MoveStep, self).__init__(arm, logger)
         self.pose = {YoupiArm.MOTOR_NAMES.index(j): a for j, a in pose.iteritems()}
+        self.args_repr = 'pose=%s' % self.pose
 
     def execute(self):
         self.arm.goto(self.pose, False)
@@ -121,13 +127,13 @@ class PauseStep(SequenceStep):
             raise
 
         self.limit = None
+        self.args_repr = 'delay=%d' % self.delay
 
     def execute(self):
         self.limit = time.time() + self.delay
 
     def is_done(self):
         return time.time() >= self.limit
-
 
 
 def main():
