@@ -1,15 +1,35 @@
 [
-    {
-        "base": -45
-    },
-    {
-        "elbow": -45
-    },
-    {
-        "base": 45
-    },
-    {
-        "base": 0,
-        "elbow":0
-    }
+    [
+        "MOVE",
+        {
+            "pose": {
+                "base": -45
+            }
+        }
+    ],
+    [
+        "MOVE",
+        {
+            "pose": {
+                "elbow": 45
+            }
+        }
+    ],
+    [
+        "MOVE",
+        {
+            "pose": {
+                "base": 45
+            }
+        }
+    ],
+    [
+        "MOVE",
+        {
+            "pose": {
+                "base": 0,
+                "elbow": 0
+            }
+        }
+    ]
 ]
