@@ -5,8 +5,8 @@ import json
 
 from pybot.youpi2.app import YoupiApplication
 
-from pybot.youpi2.demo.stmts import STATEMENTS
-from pybot.youpi2.demo.__version__ import version
+from stmts import STATEMENTS
+from __version__ import version
 
 __author__ = 'Eric Pascual'
 

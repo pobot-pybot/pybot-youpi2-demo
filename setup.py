@@ -19,7 +19,7 @@ setup(
     description='Youpi2 standalone demo',
     entry_points={
         'console_scripts': [
-            'youpi2-demo-auto = pybot.youpi2.demo.app:main',
+            'youpi2-demo-auto = pybot.youpi2.autodemo.app:main',
         ]
     }
 )
