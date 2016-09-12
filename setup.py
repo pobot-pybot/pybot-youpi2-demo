@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='pybot-youpi2-demo',
+    name='pybot-youpi2-autodemo',
     setup_requires=['setuptools_scm'],
     use_scm_version={
         'write_to': 'src/pybot/youpi2/autodemo/__version__.py'
@@ -9,7 +9,7 @@ setup(
     namespace_packages=['pybot', 'pybot.youpi2'],
     packages=find_packages("src"),
     package_dir={'': 'src'},
-    package_data={'pybot.youpi2.demo': ['data/*']},
+    package_data={'pybot.youpi2.autodemo': ['data/*']},
     url='',
     license='',
     author='Eric Pascual',
