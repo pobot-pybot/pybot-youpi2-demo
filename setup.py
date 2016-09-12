@@ -4,7 +4,7 @@ setup(
     name='pybot-youpi2-demo',
     setup_requires=['setuptools_scm'],
     use_scm_version={
-        'write_to': 'src/pybot/youpi2/demo/__version__.py'
+        'write_to': 'src/pybot/youpi2/autodemo/__version__.py'
     },
     namespace_packages=['pybot', 'pybot.youpi2'],
     packages=find_packages("src"),
