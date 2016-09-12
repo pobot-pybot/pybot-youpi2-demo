@@ -7,7 +7,7 @@ from pybot.youpi2.model import YoupiArm
 __author__ = 'Eric Pascual'
 
 
-class SequenceStep(object):
+class SequenceStatement(object):
     args_repr = ''
 
     def __init__(self, arm, logger, **kwargs):
@@ -33,11 +33,11 @@ def register(cls):
 
 
 @register
-class MoveStep(SequenceStep):
+class MoveStmt(SequenceStatement):
     KEYWORD = 'MOVE'
 
     def __init__(self, arm, logger, angles=None):
-        super(MoveStep, self).__init__(arm, logger)
+        super(MoveStmt, self).__init__(arm, logger)
         self.angles = {YoupiArm.MOTOR_NAMES.index(j): a for j, a in angles.iteritems()}
         self.args_repr = 'angles=%s' % self.angles
 
@@ -49,11 +49,11 @@ class MoveStep(SequenceStep):
 
 
 @register
-class GotoStep(SequenceStep):
+class GotoStmt(SequenceStatement):
     KEYWORD = 'GOTO'
 
     def __init__(self, arm, logger, pose=None):
-        super(GotoStep, self).__init__(arm, logger)
+        super(GotoStmt, self).__init__(arm, logger)
         self.pose = {YoupiArm.MOTOR_NAMES.index(j): a for j, a in pose.iteritems()}
         self.args_repr = 'pose=%s' % self.pose
 
@@ -65,11 +65,11 @@ class GotoStep(SequenceStep):
 
 
 @register
-class PauseStep(SequenceStep):
+class PauseStmt(SequenceStatement):
     KEYWORD = 'PAUSE'
 
     def __init__(self, arm, logger, delay=1):
-        super(PauseStep, self).__init__(arm, logger)
+        super(PauseStmt, self).__init__(arm, logger)
 
         try:
             self.delay = int(delay)
