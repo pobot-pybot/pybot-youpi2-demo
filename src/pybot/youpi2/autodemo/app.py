@@ -2,6 +2,7 @@
 
 import pkgutil
 import json
+import os
 
 from pybot.youpi2.app import YoupiApplication
 
@@ -28,17 +29,32 @@ class AutomaticDemoApp(YoupiApplication):
         parser.add_argument('--sequence-name', default="test")
 
     def setup(self, sequence_name="test", **kwargs):
-        src = json.loads(pkgutil.get_data('pybot.youpi2.demo', 'data/%s.json' % sequence_name))
-        for keyw, args in src:
+        res_local_path = 'data/%s.json' % sequence_name
+        res_path = os.path.join(os.path.dirname(__file__), res_local_path)
+        self.logger.info("loading sequence from: %s", res_path)
+        self.logger.info("- source file:")
+        pkg_name = '.'.join(__name__.split('.')[:-1])
+        src = pkgutil.get_data(pkg_name, res_local_path)
+        for line in src.splitlines():
+            self.logger.info("  " + line)
+        try:
+            js = json.loads(src)
+        except ValueError as e:
+            raise ValueError('invalid source file: %s' % e)
+
+        self.logger.info("- compiled statements:")
+        for keyw, args in js:
             try:
                 step_class = STATEMENTS[keyw]
             except KeyError:
                 raise ValueError('invalid keyword: %s' % keyw)
             else:
-                self.sequence.append(step_class(self.arm, self.logger, **args))
+                stmt = step_class(self.arm, self.logger, **args)
+                self.sequence.append(stmt)
+                self.logger.info("  " + str(stmt))
 
         self.steps_count = len(self.sequence)
-        self.logger.info("sequence: %s", self.sequence)
+        self.logger.info("complete (%s statements)", self.steps_count)
 
     def loop(self):
         if self.state == self.STATE_IDLE:
