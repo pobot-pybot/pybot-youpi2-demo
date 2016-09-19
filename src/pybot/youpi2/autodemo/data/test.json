@@ -1,34 +1,19 @@
 [
     [
-        "GOTO",
+        "POSE",
         {
-            "pose": {
+            "angles": {
                 "base": -45
             }
         }
     ],
     [
-        "GOTO",
+        "POSE",
         {
-            "pose": {
-                "elbow": 45
-            }
-        }
-    ],
-    [
-        "GOTO",
-        {
-            "pose": {
-                "base": 45
-            }
-        }
-    ],
-    [
-        "GOTO",
-        {
-            "pose": {
-                "base": 0,
-                "elbow": 0
+            "angles": {
+                "shoulder": 45,
+                "elbow": 45,
+                "wrist": 90
             }
         }
     ],
@@ -39,15 +24,27 @@
         }
     ],
     [
+        "POSE",
+        {
+            "angles": {
+                "base": 45
+            }
+        }
+    ],
+    [
         "GRIPPER",
         {
             "action": "open"
         }
     ],
     [
-        "PAUSE",
+        "HOME",
+        {}
+    ],
+    [
+        "DELAY",
         {
-            "delay": 1
+            "seconds": 1
         }
     ]
 ]

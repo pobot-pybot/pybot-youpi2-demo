@@ -20,6 +20,9 @@ class SequenceStatement(object):
     def is_done(self):
         raise NotImplementedError()
 
+    def __str__(self):
+        return self.KEYWORD + ' ' + self.args_repr
+
 
 STATEMENTS = {}
 
@@ -49,39 +52,39 @@ class MoveStmt(SequenceStatement):
 
 
 @register
-class GotoStmt(SequenceStatement):
-    KEYWORD = 'GOTO'
+class GotoPoseStmt(SequenceStatement):
+    KEYWORD = 'POSE'
 
-    def __init__(self, arm, logger, pose=None):
-        super(GotoStmt, self).__init__(arm, logger)
-        self.pose = {YoupiArm.MOTOR_NAMES.index(j): a for j, a in pose.iteritems()}
-        self.args_repr = 'pose=%s' % self.pose
+    def __init__(self, arm, logger, angles=None):
+        super(GotoPoseStmt, self).__init__(arm, logger)
+        self.angles = {YoupiArm.MOTOR_NAMES.index(j): a for j, a in angles.iteritems()}
+        self.args_repr = 'angles=%s' % self.angles
 
     def execute(self):
-        self.arm.goto(self.pose, False)
+        self.arm.goto(self.angles, False)
 
     def is_done(self):
         return not self.arm.is_moving()
 
 
 @register
-class PauseStmt(SequenceStatement):
-    KEYWORD = 'PAUSE'
+class DelayStmt(SequenceStatement):
+    KEYWORD = 'DELAY'
 
-    def __init__(self, arm, logger, delay=1):
-        super(PauseStmt, self).__init__(arm, logger)
+    def __init__(self, arm, logger, seconds=1):
+        super(DelayStmt, self).__init__(arm, logger)
 
         try:
-            self.delay = int(delay)
+            self.seconds = int(seconds)
         except ValueError:
-            self.logger.error('invalid delay value (%s) for PAUSE', delay)
+            self.logger.error('invalid seconds value (%(arg)s) for %(keyw)s', {'arg': seconds, 'keyw': self.KEYWORD})
             raise
 
         self.limit = None
-        self.args_repr = 'delay=%d' % self.delay
+        self.args_repr = 'seconds=%d' % self.seconds
 
     def execute(self):
-        self.limit = time.time() + self.delay
+        self.limit = time.time() + self.seconds
 
     def is_done(self):
         return time.time() >= self.limit
@@ -104,11 +107,21 @@ class GripperStmt(SequenceStatement):
             self.logger.error('invalid action value (%s) for GRIPPER', action)
             raise
 
-        self.limit = None
-        self.args_repr = 'action=%d' % action
+        self.args_repr = 'action=%s' % action
 
     def execute(self):
-        self.arm.open_gripper() if self.open else self.arm.close_gripper()
+        self.arm.open_gripper(True) if self.open else self.arm.close_gripper(True)
+
+    def is_done(self):
+        return not self.arm.is_moving()
+
+
+@register
+class HomeStmt(SequenceStatement):
+    KEYWORD = 'HOME'
+
+    def execute(self):
+        self.arm.go_home(YoupiArm.MOTORS_ALL, True)
 
     def is_done(self):
         return not self.arm.is_moving()
