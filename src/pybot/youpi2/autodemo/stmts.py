@@ -85,3 +85,30 @@ class PauseStmt(SequenceStatement):
 
     def is_done(self):
         return time.time() >= self.limit
+
+
+@register
+class GripperStmt(SequenceStatement):
+    KEYWORD = 'GRIPPER'
+
+    def __init__(self, arm, logger, action):
+        super(GripperStmt, self).__init__(arm, logger)
+
+        try:
+            action = action.lower()
+            if action not in ('open', 'close'):
+                raise ValueError()
+
+            self.open = action == 'open'
+        except ValueError:
+            self.logger.error('invalid action value (%s) for GRIPPER', action)
+            raise
+
+        self.limit = None
+        self.args_repr = 'action=%d' % action
+
+    def execute(self):
+        self.arm.open_gripper() if self.open else self.arm.close_gripper()
+
+    def is_done(self):
+        return not self.arm.is_moving()
