@@ -138,7 +138,7 @@ class HomeStmt(SequenceStatement):
         else:
             raise ValueError("invalid joints list (%s)" % joints)
 
-        self.args_repr = 'joints=%s' % joints
+        self.args_repr = 'joints=%s' % self.joints
 
     def execute(self):
         self.arm.go_home(self.joints, True)
