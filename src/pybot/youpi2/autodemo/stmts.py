@@ -41,7 +41,7 @@ class MoveStmt(SequenceStatement):
 
     def __init__(self, arm, logger, angles=None):
         super(MoveStmt, self).__init__(arm, logger)
-        self.angles = {YoupiArm.MOTOR_NAMES.index(j): a for j, a in angles.iteritems()}
+        self.angles = {YoupiArm.motor_id(j): a for j, a in angles.iteritems()}
         self.args_repr = 'angles=%s' % self.angles
 
     def execute(self):
@@ -57,7 +57,7 @@ class GotoPoseStmt(SequenceStatement):
 
     def __init__(self, arm, logger, angles=None):
         super(GotoPoseStmt, self).__init__(arm, logger)
-        self.angles = {YoupiArm.MOTOR_NAMES.index(j): a for j, a in angles.iteritems()}
+        self.angles = {YoupiArm.motor_id(j): a for j, a in angles.iteritems()}
         self.args_repr = 'angles=%s' % self.angles
 
     def execute(self):
@@ -130,10 +130,10 @@ class HomeStmt(SequenceStatement):
                 if name not in YoupiArm.MOTOR_NAMES:
                     raise ValueError("invalid joint name (%s)" % j)
                 if name != YoupiArm.GRIPPER_MOTOR_NAME:
-                    self.joints.append(name)
+                    self.joints.append(YoupiArm.motor_id(name))
 
         elif joints == '*':
-            self.joints = YoupiArm.JOINT_MOTOR_NAMES
+            self.joints = YoupiArm.JOINT_MOTORS
 
         else:
             raise ValueError("invalid joints list (%s)" % joints)
