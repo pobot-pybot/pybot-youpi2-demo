@@ -12,7 +12,14 @@
         {
             "angles": {
                 "shoulder": 45,
-                "elbow": 45,
+                "elbow": 45
+            }
+        }
+    ],
+    [
+        "POSE",
+        {
+            "angles": {
                 "wrist": 90
             }
         }
@@ -38,8 +45,24 @@
         }
     ],
     [
+        "POSE",
+        {
+            "angles": {
+                "wrist": 0
+            }
+        }
+    ],
+    [
         "HOME",
-        {}
+        {
+            "joints": "base"
+        }
+    ],
+    [
+        "HOME",
+        {
+            "joints": "*"
+        }
     ],
     [
         "DELAY",

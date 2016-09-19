@@ -120,8 +120,26 @@ class GripperStmt(SequenceStatement):
 class HomeStmt(SequenceStatement):
     KEYWORD = 'HOME'
 
+    def __init__(self, arm, logger, joints):
+        super(HomeStmt, self).__init__(arm, logger)
+
+        if isinstance(joints, (list, tuple)):
+            self.joints = []
+            for j in joints:
+                name = j.lower()
+                if name not in YoupiArm.MOTOR_NAMES:
+                    raise ValueError("invalid joint name (%s)" % j)
+                if name != YoupiArm.GRIPPER_MOTOR_NAME:
+                    self.joints.append(name)
+
+        elif joints == '*':
+            self.joints = YoupiArm.JOINT_MOTOR_NAMES
+
+        else:
+            raise ValueError("invalid joints list (%s)" % joints)
+
     def execute(self):
-        self.arm.go_home(YoupiArm.MOTORS_ALL, True)
+        self.arm.go_home(self.joints, True)
 
     def is_done(self):
         return not self.arm.is_moving()
