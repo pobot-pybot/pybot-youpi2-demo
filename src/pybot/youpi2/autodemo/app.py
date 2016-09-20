@@ -88,11 +88,6 @@ class AutomaticDemoApp(YoupiApplication):
         else:
             raise RuntimeError('invalid state (%s)' % self.state)
 
-    def teardown(self, exit_code):
-        self.pnl.center_text_at('terminating', 3)
-        self.arm.soft_hi_Z()
-        self.logger.info('arm set in Hi-Z')
-
 
 def main():
     AutomaticDemoApp().main()
