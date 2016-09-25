@@ -14,7 +14,7 @@ setup(
     license='',
     author='Eric Pascual',
     author_email='eric@pobot.org',
-    install_requires=['pybot-youpi2>=0.23', 'pybot-lcd-fuse>=0.20.1'],
+    install_requires=['pybot-youpi2-app'],
     download_url='https://github.com/Pobot/PyBot',
     description='Youpi2 standalone demo',
     entry_points={
