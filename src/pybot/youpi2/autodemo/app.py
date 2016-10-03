@@ -26,7 +26,7 @@ class AutomaticDemoApp(YoupiApplication):
     state = STATE_IDLE
 
     def add_custom_arguments(self, parser):
-        parser.add_argument('--sequence-name', default="test")
+        parser.add_argument('--sequence-name', default="default")
 
     def setup(self, sequence_name="test", **kwargs):
         res_local_path = 'data/%s.json' % sequence_name
