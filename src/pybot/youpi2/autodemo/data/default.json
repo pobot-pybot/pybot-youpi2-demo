@@ -1,0 +1,89 @@
+[
+    [
+        "POSE",
+        {
+            "angles": {
+                "base": -45
+            }
+        }
+    ],
+    [
+        "POSE",
+        {
+            "angles": {
+                "shoulder": 45,
+                "elbow": 45
+            }
+        }
+    ],
+    [
+        "POSE",
+        {
+            "angles": {
+                "wrist": 90
+            }
+        }
+    ],
+    [
+        "GRIPPER",
+        {
+            "action": "close"
+        }
+    ],
+    [
+        "POSE",
+        {
+            "angles": {
+                "shoulder": 40
+            }
+        }
+    ],
+    [
+        "POSE",
+        {
+            "angles": {
+                "base": 45
+            }
+        }
+    ],
+    [
+        "POSE",
+        {
+            "angles": {
+                "shoulder": 45
+            }
+        }
+    ],
+    [
+        "GRIPPER",
+        {
+            "action": "open"
+        }
+    ],
+    [
+        "POSE",
+        {
+            "angles": {
+                "wrist": 0
+            }
+        }
+    ],
+    [
+        "HOME",
+        {
+            "joints": ["base"]
+        }
+    ],
+    [
+        "HOME",
+        {
+            "joints": "*"
+        }
+    ],
+    [
+        "DELAY",
+        {
+            "seconds": 1
+        }
+    ]
+]
