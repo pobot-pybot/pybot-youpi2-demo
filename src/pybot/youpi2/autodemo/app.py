@@ -25,7 +25,8 @@ class AutomaticDemoApp(YoupiApplication):
     current_step = None
     state = STATE_IDLE
 
-    def add_custom_arguments(self, parser):
+    @classmethod
+    def add_custom_arguments(cls, parser):
         parser.add_argument('--sequence-name', default="default")
 
     def setup(self, sequence_name="test", **kwargs):
@@ -90,4 +91,4 @@ class AutomaticDemoApp(YoupiApplication):
 
 
 def main():
-    AutomaticDemoApp().main()
+    AutomaticDemoApp.main()
